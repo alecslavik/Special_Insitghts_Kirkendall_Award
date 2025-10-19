@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SmartIEP Prototype</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 40px; }
+      .card { border: 1px solid #ddd; padding: 12px; margin-bottom: 12px; border-radius: 6px;}
+      label { display:block; margin-top:8px;}
+      input, textarea, select { width:100%; padding:8px; margin-top:4px;}
+      .row { display:flex; gap:16px; }
+      .col { flex:1; }
+    </style>
+  </head>
+  <body>
+    <h1>SmartIEP Prototype (Local)</h1>
+    <p>This is a small prototype demonstrating local hosting, behavior logging, basic risk prediction, and simple IEP drafting.</p>
+
+    <div class="card">
+      <h3>Add student (use alias)</h3>
+      <form method="POST" action="/add_student">
+        <label>Alias (required)</label>
+        <input name="alias" required>
+        <label>Grade</label>
+        <input name="grade">
+        <label>Notes (e.g., "sensory", "reading support")</label>
+        <textarea name="notes"></textarea>
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <h2>Students</h2>
+    {% for s in students %}
+      <div class="card">
+        <strong>{{ s.alias }}</strong> — Grade: {{ s.grade }}<br>
+        <a href="/student/{{ s.id }}">Open</a>
+      </div>
+    {% else %}
+      <p>No students yet.</p>
+    {% endfor %}
+  </body>
+</html>

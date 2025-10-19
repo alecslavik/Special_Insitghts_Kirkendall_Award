@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Student - {{ student.alias }}</title>
+    <style>body{font-family:Arial,sans-serif;margin:30px} .card{border:1px solid #ddd;padding:12px;border-radius:6px;margin-bottom:12px}</style>
+  </head>
+  <body>
+    <a href="/">← Back</a>
+    <h1>{{ student.alias }} — Grade {{ student.grade }}</h1>
+    <p><em>Notes:</em> {{ student.notes }}</p>
+    <div class="card">
+      <h3>Log behavior</h3>
+      <form method="POST" action="/log_behavior/{{ student.id }}">
+        <label>Category</label>
+        <select name="category">
+          <option>Disruption</option>
+          <option>Off-task</option>
+          <option>Aggression</option>
+          <option>Withdrawal</option>
+          <option>Other</option>
+        </select>
+        <label>Details</label>
+        <textarea name="details"></textarea>
+        <button type="submit">Log</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Recent behavior events ({{ behaviors|length }})</h3>
+      {% for b in behaviors %}
+        <div style="padding:8px;border-bottom:1px solid #eee">
+          <strong>{{ b.category }}</strong> — <small>{{ b.timestamp }}</small>
+          <div>{{ b.details }}</div>
+        </div>
+      {% else %}
+        <p>No events logged.</p>
+      {% endfor %}
+    </div>
+
+    <div class="card">
+      <a href="/generate_iep/{{ student.id }}">Generate IEP draft</a> |
+      <a href="/api/predict_risk/{{ student.id }}">View risk (JSON)</a>
+    </div>
+  </body>
+</html>
